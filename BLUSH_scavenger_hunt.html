@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLUSH — Business Literacy Understanding Scavenger Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FAF9F6;
+    --surface: #FFFFFF;
+    --border: rgba(0,0,0,0.09);
+    --border-strong: rgba(0,0,0,0.16);
+    --text: #1A1916;
+    --muted: #7A7870;
+    --hint: #B0AEA8;
+    --accent: #C4574A;
+    --accent-light: #FDF0EE;
+    --accent-mid: #E8907F;
+    --purple: #6B5EA8;
+    --purple-light: #F0EEFF;
+    --teal: #2A8C7A;
+    --teal-light: #E8F7F4;
+    --amber: #C07A1A;
+    --amber-light: #FEF6E8;
+    --pink: #B54B7E;
+    --pink-light: #FDF0F7;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .page-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* Header */
+  .hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 10vw, 76px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-acronym {
+    font-size: 12px;
+    color: var(--hint);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 2.5rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .stat-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* Progress */
+  .progress-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .progress-track {
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Etiquette */
+  .etiquette {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow);
+    border-left: 3px solid var(--accent);
+  }
+
+  .etiquette-title {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.9rem;
+  }
+
+  .etiquette ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .etiquette li {
+    font-size: 13.5px;
+    color: var(--muted);
+    padding-left: 1.1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .etiquette li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-mid);
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 6px 16px;
+    border-radius: 99px;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tab:hover { background: var(--surface); color: var(--text); }
+
+  .tab.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--hint);
+    margin-bottom: 1rem;
+  }
+
+  /* Challenge cards */
+  .challenge-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.25rem 1.25rem 1.1rem;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+    user-select: none;
+  }
+
+  .card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07), 0 8px 24px rgba(0,0,0,0.06);
+  }
+
+  .card:active { transform: translateY(0); }
+
+  .card.done {
+    background: #FAFAF9;
+    box-shadow: none;
+  }
+
+  .card.done .card-title {
+    text-decoration: line-through;
+    color: var(--hint);
+  }
+
+  .card.done .card-desc { color: var(--hint); }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .icon-dept  { background: var(--purple-light); }
+  .icon-person { background: var(--teal-light); }
+  .icon-event  { background: var(--amber-light); }
+  .icon-mystery { background: var(--pink-light); }
+
+  .card-body { flex: 1; min-width: 0; }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .cat-tag {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+
+  .tag-dept   { background: var(--purple-light); color: var(--purple); }
+  .tag-person { background: var(--teal-light);   color: var(--teal); }
+  .tag-event  { background: var(--amber-light);  color: var(--amber); }
+  .tag-mystery{ background: var(--pink-light);   color: var(--pink); }
+
+  .pts-tag {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+
+  .card-tip {
+    font-size: 12px;
+    color: #2A6EA8;
+    background: #EDF5FD;
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+
+  .tip-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    opacity: 0.75;
+  }
+
+  .checkmark {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .checkmark.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .checkmark svg { display: none; }
+  .checkmark.checked svg { display: block; }
+
+  /* Congrats */
+  .congrats {
+    display: none;
+    text-align: center;
+    padding: 3rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .congrats.show { display: block; }
+
+  .congrats-emoji { font-size: 44px; margin-bottom: 1rem; }
+
+  .congrats h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+
+  .congrats p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .reset-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 8px 22px;
+    border-radius: 99px;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .reset-btn:hover { background: var(--bg); color: var(--text); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--hint);
+  }
+
+  @media (max-width: 480px) {
+    .stats-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .stat-val { font-size: 26px; }
+    .hero h1 { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header class="hero">
+    <div class="hero-eyebrow">Intern onboarding</div>
+    <h1>BL<em>U</em>SH</h1>
+    <div class="hero-acronym">Business Literacy Understanding Scavenger Hunt</div>
+    <p class="hero-desc">An optional, ongoing challenge to explore the company, connect with people across teams, and learn how the business really works.</p>
+  </header>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val" id="pts-val">0</div>
+      <div class="stat-lbl">points earned</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="done-val">0</div>
+      <div class="stat-lbl">completed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="total-val">16</div>
+      <div class="stat-lbl">total challenges</div>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-header">
+      <span id="prog-label">0% complete</span>
+      <span id="prog-pts">0 / 32 pts</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <div class="etiquette">
+    <div class="etiquette-title">Before you reach out</div>
+    <ul>
+      <li>Always message the person first — don't approach cold. Introduce yourself and mention BLUSH.</li>
+      <li>Keep it brief. A 5-minute coffee or a quick reply is plenty — respect their time.</li>
+      <li>If they're busy or don't respond, that's completely fine. Try again later or pick a different challenge.</li>
+      <li>This is about genuine connection, not ticking boxes. Be curious and have fun with it!</li>
+    </ul>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-filter="all">All</button>
+    <button class="tab" data-filter="dept">Departments</button>
+    <button class="tab" data-filter="person">People</button>
+    <button class="tab" data-filter="event">Events</button>
+    <button class="tab" data-filter="mystery">Mystery</button>
+  </div>
+
+  <div class="section-label" id="section-label">All challenges</div>
+
+  <div class="challenge-list" id="challenge-list"></div>
+
+  <div class="congrats" id="congrats">
+    <div class="congrats-emoji">🎉</div>
+    <h2>You've done it all!</h2>
+    <p>You've explored the whole company. Genuinely impressive — nice work.</p>
+    <button class="reset-btn" id="reset-btn">Start over</button>
+  </div>
+
+  <footer class="footer">
+    Progress saves automatically in your browser &mdash; pick up where you left off any time.
+  </footer>
+
+</div>
+
+<script>
+const challenges = [
+  { id:1,  cat:"dept",    pts:2, icon:"💼", title:"Visit the Finance team",           desc:"Find someone in Finance and ask them: what's one metric they track every week, and why it matters?" },
+  { id:2,  cat:"dept",    pts:2, icon:"💻", title:"Explore a technical team",          desc:"Chat with someone from Engineering, Data, or Product. Ask them to explain what they're currently building in one sentence." },
+  { id:3,  cat:"dept",    pts:3, icon:"📞", title:"Shadow a Sales or BD call",         desc:"Ask someone in Sales or Business Development if you can listen in on an internal prep call or debrief." },
+  { id:4,  cat:"dept",    pts:1, icon:"🧑‍🤝‍🧑", title:"Meet someone in HR or People Ops", desc:"Ask them what the onboarding experience looked like two years ago versus today." },
+  { id:5,  cat:"dept",    pts:2, icon:"📣", title:"Discover the Marketing team",       desc:"Ask a marketer what the company's biggest messaging challenge is right now." },
+  { id:6,  cat:"person",  pts:1, icon:"🎨", title:"Find someone with coloured hair",   desc:"Strike up a conversation about their role and ask one thing they wish they'd known in their first week." },
+  { id:7,  cat:"person",  pts:2, icon:"⭐", title:"Meet a 5+ year employee",           desc:"Message someone who's been here for five years or more. Ask them: how has the company changed the most?" },
+  { id:8,  cat:"person",  pts:1, icon:"👋", title:"Connect with a fellow intern",      desc:"Introduce yourself to an intern from a different team and swap your biggest learning so far." },
+  { id:9,  cat:"person",  pts:2, icon:"🔀", title:"Find someone who moved teams",      desc:"Ask them what prompted the switch and what they'd do differently if they could go back." },
+  { id:10, cat:"person",  pts:2, icon:"❓", title:"Meet someone with a mystery title", desc:"Find a job title in the company directory you genuinely don't understand — then ask that person what they actually do." },
+  { id:11, cat:"event",   pts:2, icon:"🗓️", title:"Attend another team's standup",    desc:"Ask a team if you can sit in on their daily standup. Notice how it's run differently from your own team's." },
+  { id:12, cat:"event",   pts:1, icon:"🏛️", title:"Join an all-hands or town hall",   desc:"Write down one question you'd ask if you could ask anything. See if it gets answered." },
+  { id:13, cat:"event",   pts:1, icon:"🍱", title:"Attend a lunch & learn",            desc:"Go to an internal learning session. Bonus: introduce yourself to someone you've never met there." },
+  { id:14, cat:"mystery", pts:2, icon:"🗺️", title:"Find the unofficial 'go-to' person",desc:"Ask your manager who everyone goes to when they're stuck — then introduce yourself to that person." },
+  { id:15, cat:"mystery", pts:1, icon:"🏆", title:"Uncover a company tradition",       desc:"Ask three different people about a company tradition or running joke. See if you get three different answers." },
+  { id:16, cat:"mystery", pts:2, icon:"🚪", title:"Get a tour from a non-intern",      desc:"Ask a full-timer to show you a part of the office or workflow you haven't seen or experienced yet." },
+];
+
+const catLabels = { dept:"Departments", person:"People", event:"Events", mystery:"Mystery" };
+const totalPts = challenges.reduce((s,c)=>s+c.pts,0);
+
+let state = {};
+try { const s = localStorage.getItem("blush_v1"); if(s) state = JSON.parse(s); } catch(e) {}
+let filter = "all";
+
+function save() { try { localStorage.setItem("blush_v1", JSON.stringify(state)); } catch(e){} }
+function earnedPts() { return challenges.filter(c=>state[c.id]).reduce((s,c)=>s+c.pts,0); }
+function doneCount() { return challenges.filter(c=>state[c.id]).length; }
+
+function updateStats() {
+  const done = doneCount(), pts = earnedPts(), total = challenges.length;
+  document.getElementById("pts-val").textContent = pts;
+  document.getElementById("done-val").textContent = done;
+  document.getElementById("total-val").textContent = total;
+  document.getElementById("prog-label").textContent = Math.round((done/total)*100) + "% complete";
+  document.getElementById("prog-pts").textContent = pts + " / " + totalPts + " pts";
+  document.getElementById("prog-fill").style.width = Math.round((done/total)*100) + "%";
+
+  const allDone = done === total;
+  document.getElementById("challenge-list").style.display = allDone ? "none" : "";
+  document.getElementById("section-label").style.display = allDone ? "none" : "";
+  document.getElementById("tabs").style.display = allDone ? "none" : "";
+  const cg = document.getElementById("congrats");
+  allDone ? cg.classList.add("show") : cg.classList.remove("show");
+}
+
+function render() {
+  const list = document.getElementById("challenge-list");
+  list.innerHTML = "";
+  const visible = filter === "all" ? challenges : challenges.filter(c=>c.cat===filter);
+  document.getElementById("section-label").textContent = filter === "all" ? "All challenges" : catLabels[filter];
+
+  visible.forEach(c => {
+    const done = !!state[c.id];
+    const div = document.createElement("div");
+    div.className = "card" + (done ? " done" : "");
+    div.innerHTML = `
+      <div class="card-icon icon-${c.cat}">${c.icon}</div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="cat-tag tag-${c.cat}">${catLabels[c.cat]}</span>
+          <span class="pts-tag">${c.pts} pt${c.pts>1?"s":""}</span>
+        </div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-desc">${c.desc}</div>
+        <div class="card-tip">
+          <svg class="tip-icon" width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="#2A6EA8" stroke-width="1.4"/>
+            <path d="M8 7v4M8 5v.5" stroke="#2A6EA8" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          Message them first — introduce yourself and mention BLUSH before reaching out.
+        </div>
+      </div>
+      <div class="checkmark${done?" checked":""}">
+        <svg width="11" height="9" viewBox="0 0 11 9" fill="none">
+          <path d="M1 4.5L4 7.5L10 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>`;
+    div.addEventListener("click", () => {
+      state[c.id] = !state[c.id];
+      save();
+      render();
+      updateStats();
+    });
+    list.appendChild(div);
+  });
+}
+
+document.getElementById("tabs").addEventListener("click", e => {
+  const t = e.target.closest(".tab");
+  if(!t) return;
+  filter = t.dataset.filter;
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x===t));
+  render();
+});
+
+document.getElementById("reset-btn").addEventListener("click", () => {
+  state = {};
+  save();
+  filter = "all";
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x.dataset.filter==="all"));
+  render();
+  updateStats();
+});
+
+render();
+updateStats();
+</script>
+</body>
+</html>
